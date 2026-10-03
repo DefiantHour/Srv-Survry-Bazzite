@@ -1,0 +1,666 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:SrvSurveyLinuxUi.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        d:DesignWidth="437" d:DesignHeight="548"
+        x:Class="SrvSurveyLinuxUi.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Width="437" Height="548"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen"
+        RequestedThemeVariant="Light"
+        Background="{DynamicResource FormBack}"
+        Foreground="{DynamicResource FormFore}"
+        FontFamily="Noto Sans Mono, Liberation Mono, monospace"
+        FontSize="11.3"
+        FontWeight="Medium"
+        Icon="/Assets/srvsurvey.png"
+        Title="{Binding WindowTitle}">
+
+    <!-- Locations and sizes are the client pixels from SrvSurvey/Main.Designer.cs (437x548).
+         Group children add their GroupBox2 location. Colors come from MainTheme. -->
+
+    <Design.DataContext>
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <Window.Resources>
+        <ControlTheme x:Key="DrawButton" TargetType="Button">
+            <Setter Property="Background" Value="{DynamicResource DrawBack}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource DrawFore}" />
+            <Setter Property="Foreground" Value="{DynamicResource DrawFore}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Padding="{TemplateBinding Padding}"
+                                          Foreground="{TemplateBinding Foreground}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="{DynamicResource DrawHover}" />
+                <Setter Property="Foreground" Value="{DynamicResource DrawForeHover}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource DrawForeHover}" />
+            </Style>
+            <Style Selector="^:pressed">
+                <Setter Property="Background" Value="{DynamicResource DrawPressed}" />
+                <Setter Property="Foreground" Value="{DynamicResource DrawForePressed}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource DrawForePressed}" />
+            </Style>
+            <Style Selector="^:disabled">
+                <Setter Property="Background" Value="{DynamicResource DrawDisabled}" />
+                <Setter Property="Foreground" Value="{DynamicResource DrawForeDisabled}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource DrawForeDisabled}" />
+            </Style>
+        </ControlTheme>
+
+        <!-- WinForms FlatStyle.Flat: the border is the fore color. -->
+        <ControlTheme x:Key="FlatButton" TargetType="Button" BasedOn="{StaticResource DrawButton}">
+            <Setter Property="Background" Value="{DynamicResource FlatBack}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource FlatFore}" />
+            <Setter Property="Foreground" Value="{DynamicResource FlatFore}" />
+            <Setter Property="FontFamily" Value="Noto Sans, sans-serif" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="21" />
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="{DynamicResource FlatHover}" />
+                <Setter Property="Foreground" Value="{DynamicResource FlatFore}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource FlatFore}" />
+            </Style>
+            <Style Selector="^:pressed">
+                <Setter Property="Background" Value="{DynamicResource FlatPressed}" />
+                <Setter Property="Foreground" Value="{DynamicResource FlatFore}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource FlatFore}" />
+            </Style>
+            <Style Selector="^:disabled">
+                <Setter Property="Background" Value="{DynamicResource FlatDisabled}" />
+                <Setter Property="Foreground" Value="{DynamicResource GrayText}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource GrayText}" />
+            </Style>
+        </ControlTheme>
+
+        <ControlTheme x:Key="LinkButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <ContentPresenter Background="{TemplateBinding Background}"
+                                      Content="{TemplateBinding Content}"
+                                      Padding="{TemplateBinding Padding}" />
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+
+        <!-- CheckBox2: 13x13 glyph box at (1,1), text at (15,1), two-stroke check mark. -->
+        <ControlTheme x:Key="CheckBox2" TargetType="CheckBox">
+            <Setter Property="Background" Value="{DynamicResource CheckBack}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource CheckLine}" />
+            <Setter Property="Foreground" Value="{DynamicResource FormFore}" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Canvas Background="Transparent">
+                        <Border Canvas.Left="1" Canvas.Top="1" Width="14" Height="14"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1">
+                            <Path Name="CheckGlyph"
+                                  Data="M 2,5 L 5,8 L 9,2.5"
+                                  Stroke="{DynamicResource CheckMark}"
+                                  StrokeThickness="1.5"
+                                  StrokeLineCap="Square" />
+                        </Border>
+                        <ContentPresenter Canvas.Left="17" Canvas.Top="0"
+                                          Content="{TemplateBinding Content}"
+                                          Foreground="{TemplateBinding Foreground}" />
+                    </Canvas>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^ /template/ Path#CheckGlyph">
+                <Setter Property="IsVisible" Value="False" />
+            </Style>
+            <Style Selector="^:checked /template/ Path#CheckGlyph">
+                <Setter Property="IsVisible" Value="True" />
+            </Style>
+            <Style Selector="^:disabled">
+                <Setter Property="BorderBrush" Value="{DynamicResource CheckLineDisabled}" />
+                <Setter Property="Foreground" Value="{DynamicResource GrayText}" />
+            </Style>
+            <Style Selector="^:disabled /template/ Path#CheckGlyph">
+                <Setter Property="Stroke" Value="{DynamicResource CheckLineDisabled}" />
+            </Style>
+        </ControlTheme>
+
+        <!-- WinForms Label: a disabled label is drawn embossed, light copy one pixel down-right. -->
+        <ControlTheme x:Key="WinLabel" TargetType="Label">
+            <Setter Property="Foreground" Value="{DynamicResource FormFore}" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Panel>
+                        <TextBlock Name="Shadow" Margin="1,1,0,0" IsVisible="False"
+                                   Foreground="{DynamicResource LabelDisabledShadow}"
+                                   Text="{TemplateBinding Content}" />
+                        <TextBlock Foreground="{TemplateBinding Foreground}"
+                                   Text="{TemplateBinding Content}" />
+                    </Panel>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:disabled">
+                <Setter Property="Foreground" Value="{DynamicResource LabelDisabledFore}" />
+            </Style>
+            <Style Selector="^:disabled /template/ TextBlock#Shadow">
+                <Setter Property="IsVisible" Value="True" />
+            </Style>
+        </ControlTheme>
+
+        <!-- ToolStrip items under ToolStripRenderMode.System. The image margin width is set per menu. -->
+        <ControlTheme x:Key="MenuItem2" TargetType="MenuItem">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource MenuFore}" />
+            <Setter Property="Cursor" Value="Arrow" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Name="Root" Background="{TemplateBinding Background}">
+                        <Grid ColumnDefinitions="Auto,*">
+                            <Panel Name="ImageMargin" Margin="2,0,6,0">
+                                <ContentPresenter Content="{TemplateBinding Icon}"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center" />
+                                <Path Name="CheckGlyph" IsVisible="False"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Data="M 0,3.5 L 3,6.5 L 8,0.5"
+                                      Stroke="{TemplateBinding Foreground}"
+                                      StrokeThickness="1.5" />
+                            </Panel>
+                            <ContentPresenter Grid.Column="1"
+                                              Margin="0,0,24,0"
+                                              VerticalAlignment="Center"
+                                              Content="{TemplateBinding Header}"
+                                              Foreground="{TemplateBinding Foreground}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="{DynamicResource MenuHover}" />
+                <Setter Property="Foreground" Value="{DynamicResource MenuHoverFore}" />
+            </Style>
+            <Style Selector="^:disabled">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="{DynamicResource MenuDisabledFore}" />
+            </Style>
+            <Style Selector="^.checked /template/ Path#CheckGlyph">
+                <Setter Property="IsVisible" Value="True" />
+            </Style>
+        </ControlTheme>
+
+        <ControlTheme x:Key="MenuSeparator2" TargetType="Separator">
+            <Setter Property="Height" Value="7" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Height="1" VerticalAlignment="Center"
+                            Background="{DynamicResource MenuSeparator}" />
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+    </Window.Resources>
+
+    <Window.Styles>
+        <Style Selector="Button">
+            <Setter Property="Theme" Value="{StaticResource DrawButton}" />
+        </Style>
+        <Style Selector="CheckBox">
+            <Setter Property="Theme" Value="{StaticResource CheckBox2}" />
+        </Style>
+        <Style Selector="Label">
+            <Setter Property="Theme" Value="{StaticResource WinLabel}" />
+        </Style>
+
+        <Style Selector="Border.group">
+            <Setter Property="BorderBrush" Value="{DynamicResource GroupLine}" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+        <Style Selector="TextBlock.groupTitle">
+            <Setter Property="Background" Value="{DynamicResource FormBack}" />
+            <Setter Property="Padding" Value="2,0,2,0" />
+        </Style>
+
+        <!-- TextBox, BorderStyle.FixedSingle, ReadOnly. -->
+        <Style Selector="Border.box">
+            <Setter Property="Height" Value="20" />
+            <Setter Property="Background" Value="{DynamicResource BoxBack}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BoxBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+        <Style Selector="Border.box > SelectableTextBlock">
+            <Setter Property="Margin" Value="2,0,2,2" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="TextWrapping" Value="NoWrap" />
+            <Setter Property="TextTrimming" Value="None" />
+            <Setter Property="Foreground" Value="{DynamicResource BoxFore}" />
+            <Setter Property="SelectionBrush" Value="#0078D7" />
+        </Style>
+        <Style Selector="Border.box.center > SelectableTextBlock">
+            <Setter Property="TextAlignment" Value="Center" />
+        </Style>
+        <Style Selector="Border.box:disabled > SelectableTextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource GrayText}" />
+        </Style>
+
+        <Style Selector="StackPanel.linkLine > TextBlock">
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+        <Style Selector="TextBlock.link">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="{DynamicResource LinkFore}" />
+            <Setter Property="TextDecorations" Value="Underline" />
+        </Style>
+
+        <Style Selector="MenuFlyoutPresenter">
+            <Setter Property="Background" Value="{DynamicResource MenuBack}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource MenuSeparator}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="MinWidth" Value="0" />
+            <Setter Property="FontFamily" Value="Noto Sans, sans-serif" />
+            <Setter Property="FontWeight" Value="Normal" />
+        </Style>
+        <Style Selector="MenuFlyoutPresenter MenuItem">
+            <Setter Property="Theme" Value="{StaticResource MenuItem2}" />
+        </Style>
+        <Style Selector="MenuFlyoutPresenter Separator">
+            <Setter Property="Theme" Value="{StaticResource MenuSeparator2}" />
+        </Style>
+
+        <!-- menuSearchTools: Segoe UI 15.75pt, 202x54 items, 48px images. -->
+        <Style Selector="MenuFlyoutPresenter.search MenuItem">
+            <Setter Property="FontSize" Value="21" />
+            <Setter Property="Width" Value="202" />
+            <Setter Property="Height" Value="54" />
+        </Style>
+        <Style Selector="MenuFlyoutPresenter.search MenuItem /template/ Panel#ImageMargin">
+            <Setter Property="Width" Value="48" />
+        </Style>
+        <!-- menuGuardians: Segoe UI 14.25pt, 241x38 items, 32px images. -->
+        <Style Selector="MenuFlyoutPresenter.guardian MenuItem">
+            <Setter Property="FontSize" Value="19" />
+            <Setter Property="Width" Value="241" />
+            <Setter Property="Height" Value="38" />
+        </Style>
+        <Style Selector="MenuFlyoutPresenter.guardian MenuItem /template/ Panel#ImageMargin">
+            <Setter Property="Width" Value="32" />
+        </Style>
+        <Style Selector="MenuFlyoutPresenter.guardian Separator, MenuFlyoutPresenter.colonise Separator">
+            <Setter Property="Margin" Value="40,0,0,0" />
+        </Style>
+        <!-- menuJourney: Segoe UI 12pt, 202x26 items, ShowImageMargin false. -->
+        <Style Selector="MenuFlyoutPresenter.journey MenuItem">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Width" Value="202" />
+            <Setter Property="Height" Value="26" />
+        </Style>
+        <Style Selector="MenuFlyoutPresenter.journey MenuItem /template/ Panel#ImageMargin">
+            <Setter Property="Width" Value="0" />
+        </Style>
+        <!-- menuColonize: items at Segoe UI 12pt, 259x38, 32px images. -->
+        <Style Selector="MenuFlyoutPresenter.colonise MenuItem">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Width" Value="259" />
+            <Setter Property="Height" Value="38" />
+        </Style>
+        <Style Selector="MenuFlyoutPresenter.colonise MenuItem /template/ Panel#ImageMargin">
+            <Setter Property="Width" Value="32" />
+        </Style>
+        <Style Selector="MenuFlyoutPresenter.colonise MenuItem.small">
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+        <Style Selector="MenuFlyoutPresenter.colonise MenuItem.header">
+            <Setter Property="Height" Value="28" />
+        </Style>
+    </Window.Styles>
+
+    <Canvas Width="437" Height="548">
+
+        <!-- groupCmdr (12,12) 413x98 -->
+        <Border Classes="group" Canvas.Left="12" Canvas.Top="18" Width="413" Height="91" />
+        <TextBlock Classes="groupTitle" Canvas.Left="18" Canvas.Top="12" Text="Commander:" />
+        <Border Classes="box" Canvas.Left="18" Canvas.Top="31" Width="400">
+            <SelectableTextBlock Text="{Binding CommanderText}" />
+        </Border>
+        <Button Canvas.Left="398" Canvas.Top="31" Width="20" Height="20"
+                Background="{DynamicResource NextWindowBack}"
+                IsVisible="{Binding ShowNextWindow}"
+                ToolTip.Tip="Switch overlays to the next game window"
+                Command="{Binding NextWindowCommand}">
+            <Image Source="/Assets/next-window.png" Width="16" Height="16" />
+        </Button>
+        <Border Classes="box" Canvas.Left="18" Canvas.Top="55" Width="280">
+            <SelectableTextBlock Text="{Binding LocationText}" />
+        </Border>
+        <Button Canvas.Left="300" Canvas.Top="55" Width="20" Height="20"
+                IsEnabled="{Binding CanCopyLocation}"
+                ToolTip.Tip="Copy the current location to the clipboard"
+                Command="{Binding CopyLocationCommand}">
+            <Canvas Width="18" Height="18">
+                <Border Canvas.Left="7" Canvas.Top="2" Width="9" Height="11"
+                        BorderThickness="1" BorderBrush="{DynamicResource CopyIconBack}" />
+                <Border Canvas.Left="3" Canvas.Top="5" Width="9" Height="11"
+                        BorderThickness="1" BorderBrush="{DynamicResource CopyIconFront}" />
+            </Canvas>
+        </Button>
+        <Border Classes="box" Canvas.Left="325" Canvas.Top="55" Width="93">
+            <SelectableTextBlock Text="{Binding NearBodyText}" />
+        </Border>
+        <Border Classes="box" Canvas.Left="18" Canvas.Top="81" Width="96">
+            <SelectableTextBlock Text="{Binding VehicleText}" />
+        </Border>
+        <Border Classes="box" Canvas.Left="120" Canvas.Top="81" Width="298">
+            <SelectableTextBlock Text="{Binding ModeText}" />
+        </Border>
+
+        <!-- groupBox5 (12,116) 413x72 -->
+        <Border Classes="group" Canvas.Left="12" Canvas.Top="122" Width="413" Height="65" />
+        <TextBlock Classes="groupTitle" Canvas.Left="18" Canvas.Top="116" Text="Exploration trip counter:" />
+        <Label Canvas.Left="18" Canvas.Top="135" Content="Estimated value:" />
+        <Border Classes="box center" Canvas.Left="139" Canvas.Top="132" Width="72">
+            <SelectableTextBlock Text="{Binding ExplorationValueText}" />
+        </Border>
+        <Label Canvas.Left="217" Canvas.Top="135" Content="Jumps:" />
+        <Border Classes="box center" Canvas.Left="267" Canvas.Top="132" Width="55">
+            <SelectableTextBlock Text="{Binding JumpsText}" />
+        </Border>
+        <Border Classes="box center" Canvas.Left="325" Canvas.Top="132" Width="93">
+            <SelectableTextBlock Text="{Binding DistanceText}" />
+        </Border>
+        <Button Canvas.Left="20" Canvas.Top="156" Width="53" Height="21"
+                Content="Reset"
+                IsEnabled="{Binding GameLive}"
+                Command="{Binding ResetExplorationCommand}" />
+        <Label Canvas.Left="79" Canvas.Top="161" Content="Bodies:" />
+        <Border Classes="box" Canvas.Left="139" Canvas.Top="158" Width="280">
+            <SelectableTextBlock Text="{Binding BodiesText}" />
+        </Border>
+
+        <!-- groupBox3 (12,198) 413x130 -->
+        <Border Classes="group" Canvas.Left="12" Canvas.Top="204" Width="413" Height="123" />
+        <TextBlock Classes="groupTitle" Canvas.Left="18" Canvas.Top="198" Text="Bio scanning:" />
+        <Label Canvas.Left="18" Canvas.Top="214" Content="Unclaimed rewards:" />
+        <Border Classes="box" Canvas.Left="155" Canvas.Top="211" Width="263">
+            <SelectableTextBlock Text="{Binding BioRewardsText}" />
+        </Border>
+        <Label Canvas.Left="83" Canvas.Top="236" Content="Scanned signals and rewards:"
+               IsEnabled="{Binding SystemBioEnabled}" />
+        <Label Canvas.Left="20" Canvas.Top="256" Content="System:"
+               IsEnabled="{Binding SystemBioEnabled}" />
+        <Border Classes="box center" Canvas.Left="81" Canvas.Top="253" Width="77"
+                IsEnabled="{Binding SystemBioEnabled}">
+            <SelectableTextBlock Text="{Binding SystemBioSignalsText}" />
+        </Border>
+        <Border Classes="box" Canvas.Left="155" Canvas.Top="253" Width="263"
+                IsEnabled="{Binding SystemBioEnabled}">
+            <SelectableTextBlock Text="{Binding SystemBioValuesText}" />
+        </Border>
+        <Label Canvas.Left="34" Canvas.Top="282" Content="Body:"
+               IsEnabled="{Binding BodyBioEnabled}" />
+        <Border Classes="box center" Canvas.Left="81" Canvas.Top="279" Width="77"
+                IsEnabled="{Binding BodyBioEnabled}">
+            <SelectableTextBlock Text="{Binding BodyBioSignalsText}" />
+        </Border>
+        <Border Classes="box" Canvas.Left="155" Canvas.Top="279" Width="263"
+                IsEnabled="{Binding BodyBioEnabled}">
+            <SelectableTextBlock Text="{Binding BodyBioValuesText}" />
+        </Border>
+        <Button Canvas.Left="20" Canvas.Top="301" Width="53" Height="21"
+                Content="Reset"
+                IsEnabled="{Binding CanResetBio}"
+                Command="{Binding ResetBioCommand}" />
+        <CheckBox Canvas.Left="155" Canvas.Top="305" Width="122" Height="16"
+                  Content="First Footfall"
+                  IsChecked="{Binding FirstFootFall}"
+                  IsEnabled="{Binding FirstFootFallEnabled}" />
+        <Button Canvas.Left="325" Canvas.Top="301" Width="93" Height="21"
+                Content="Predictions"
+                IsEnabled="{Binding SystemBioEnabled}"
+                Command="{Binding PredictionsCommand}" />
+
+        <!-- groupCodex (12,334) 86x92 -->
+        <Border Classes="group" Canvas.Left="12" Canvas.Top="340" Width="86" Height="85" />
+        <TextBlock Classes="groupTitle" Canvas.Left="18" Canvas.Top="334" Text="Codex" />
+        <TextBlock Canvas.Left="16" Canvas.Top="346" Width="86" Height="40"
+                   FontFamily="URW Gothic" FontWeight="Bold" FontSize="29"
+                   TextAlignment="Center" VerticalAlignment="Center"
+                   Text="{Binding CodexText}" />
+        <Button Canvas.Left="18" Canvas.Top="399" Width="75" Height="21"
+                Content="Bingo"
+                Command="{Binding CodexBingoCommand}" />
+
+        <Button Name="BtnSearch" Theme="{StaticResource FlatButton}"
+                Canvas.Left="102" Canvas.Top="340" Width="150" Height="40"
+                ClickMode="Press"
+                IsEnabled="{Binding HasCommander}"
+                ToolTip.Tip="Tools to search for systems in spheres or cubes of space"
+                Click="OnMenuButtonClick">
+            <FlyoutBase.AttachedFlyout>
+                <MenuFlyout Placement="BottomEdgeAlignedLeft" FlyoutPresenterClasses="search">
+                    <MenuItem Header="Spherical"
+                              ToolTip.Tip="Search within a spherical area of space, around a central location."
+                              Command="{Binding SphericalSearchCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="/Assets/spherical-48.png" Width="48" Height="48" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Boxel"
+                              ToolTip.Tip="Search every system within a named boxel."
+                              Command="{Binding BoxelSearchCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="/Assets/boxel-48.png" Width="48" Height="48" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuFlyout>
+            </FlyoutBase.AttachedFlyout>
+            <TextBlock><Run FontFamily="Symbola" Text="🔎" /><Run Text=" Search" /></TextBlock>
+        </Button>
+
+        <Button Name="BtnGuardian" Theme="{StaticResource FlatButton}"
+                Canvas.Left="256" Canvas.Top="340" Width="169" Height="40"
+                ClickMode="Press"
+                ToolTip.Tip="Tools to help find, navigate and survey Guardian sites"
+                Click="OnMenuButtonClick">
+            <FlyoutBase.AttachedFlyout>
+                <MenuFlyout Placement="BottomEdgeAlignedLeft" FlyoutPresenterClasses="guardian">
+                    <MenuItem Header="Guardian Sites" Command="{Binding GuardianSitesCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="/Assets/ticket.png" Width="32" Height="32" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Survey Maps" Command="{Binding SurveyMapsCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="/Assets/maps.png" Width="32" Height="32" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Ram Tah Mission"
+                              IsEnabled="{Binding HasCommander}"
+                              Command="{Binding RamTahMissionCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="/Assets/moai.png" Width="32" Height="32" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Show Map"
+                              IsEnabled="{Binding GuardianSiteActive}"
+                              Command="{Binding ShowGuardianMapCommand}" />
+                    <MenuItem Header="Aerial Assist"
+                              IsEnabled="{Binding GuardianSiteActive}"
+                              Command="{Binding AerialAssistCommand}" />
+                </MenuFlyout>
+            </FlyoutBase.AttachedFlyout>
+            <TextBlock><Run FontFamily="Symbola" Text="🗿" /><Run Text=" Guardian" /></TextBlock>
+        </Button>
+
+        <Button Name="BtnTravel" Theme="{StaticResource FlatButton}"
+                Canvas.Left="102" Canvas.Top="384" Width="150" Height="40"
+                ClickMode="Press"
+                IsEnabled="{Binding HasCommander}"
+                ToolTip.Tip="Tools to navigate to specific locations, or keep records of a long journey or expedition"
+                Click="OnMenuButtonClick">
+            <FlyoutBase.AttachedFlyout>
+                <MenuFlyout Placement="BottomEdgeAlignedLeft" FlyoutPresenterClasses="journey"
+                            Opening="OnJourneyMenuOpening">
+                    <MenuItem Header="Target lat/long ..."
+                              ToolTip.Tip="Clear or set target lat/long co-ordinated"
+                              Command="{Binding TargetLatLongCommand}" />
+                    <Separator />
+                    <MenuItem Header="Start a new journey ..."
+                              IsVisible="{Binding ShowJourneyBegin}"
+                              Command="{Binding JourneyBeginCommand}" />
+                    <MenuItem Header="System Notes ..."
+                              IsVisible="{Binding ShowJourneyActive}"
+                              Command="{Binding JourneyNotesCommand}" />
+                    <MenuItem Header="View Journey ..."
+                              IsVisible="{Binding ShowJourneyActive}"
+                              Command="{Binding JourneyReviewCommand}" />
+                    <MenuItem Header="Past Journeys ..."
+                              IsVisible="{Binding ShowPastJourneys}"
+                              Command="{Binding PastJourneysCommand}" />
+                    <Separator />
+                    <MenuItem Header="Follow a route ..." Command="{Binding FollowRouteCommand}" />
+                </MenuFlyout>
+            </FlyoutBase.AttachedFlyout>
+            <TextBlock><Run FontFamily="Symbola" Text="🚀" /><Run Text=" Travel" /></TextBlock>
+        </Button>
+
+        <Button Name="BtnColonise" Theme="{StaticResource FlatButton}"
+                Canvas.Left="256" Canvas.Top="384" Width="169" Height="40"
+                ClickMode="Press"
+                IsEnabled="{Binding HasCommander}"
+                ToolTip.Tip="Tools and features to help with system colonization"
+                Click="OnMenuButtonClick">
+            <FlyoutBase.AttachedFlyout>
+                <MenuFlyout Placement="BottomEdgeAlignedLeft" FlyoutPresenterClasses="colonise">
+                    <MenuItem Header="Refresh data"
+                              IsEnabled="{Binding CanRefreshColonise}"
+                              Command="{Binding RefreshColoniseCommand}" />
+                    <Separator IsVisible="{Binding ShowColoniseLine1}" />
+                    <MenuItem Header="My projects ..."
+                              IsVisible="{Binding HasCommander}"
+                              Command="{Binding MyProjectsCommand}" />
+                    <MenuItem Header="Local project"
+                              IsVisible="{Binding ShowLocalProject}"
+                              Command="{Binding LocalProjectCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="/Assets/ruler.png" Width="32" Height="32" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="{Binding SetPrimaryText}"
+                              IsVisible="{Binding ShowSetPrimary}"
+                              Command="{Binding SetPrimaryCommand}" />
+                    <Separator IsVisible="{Binding ShowNewProject}" />
+                    <MenuItem Header="New project ..."
+                              IsVisible="{Binding ShowNewProject}"
+                              Command="{Binding NewProjectCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="/Assets/ruler.png" Width="32" Height="32" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Raven Colonial" Command="{Binding OpenRavenColonialCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="/Assets/rcc-32.png" Width="32" Height="32" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Set api-key" Command="{Binding SetApiKeyCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="/Assets/api-key.png" Width="32" Height="32" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="See the wiki" Command="{Binding OpenColonisationWikiCommand}" />
+                    <MenuItem Classes="small" Header="Hide non-Colonization overlays"
+                              Classes.checked="{Binding HideNonColonisationOverlays}"
+                              Command="{Binding ToggleHideNonColonisationOverlaysCommand}" />
+                    <Separator IsVisible="{Binding ShowColoniseUpdateHeader}" />
+                    <MenuItem Classes="header" Header="Update Raven Colonial"
+                              IsEnabled="False"
+                              IsVisible="{Binding ShowColoniseUpdateHeader}" />
+                    <MenuItem Header="{Binding PublishFleetCarrierText}"
+                              IsVisible="{Binding ShowPublishFleetCarrier}"
+                              Command="{Binding PublishFleetCarrierCommand}" />
+                    <MenuItem Header="Update system bodies"
+                              IsVisible="{Binding ShowUpdateSystemBodies}"
+                              Command="{Binding UpdateSystemBodiesCommand}" />
+                    <MenuItem Header="Update system..."
+                              IsVisible="{Binding ShowUpdateStations}"
+                              Command="{Binding UpdateStationsSitesCommand}" />
+                </MenuFlyout>
+            </FlyoutBase.AttachedFlyout>
+            <TextBlock><Run FontFamily="Symbola" Text="🚧" /><Run Text=" Colonize" /></TextBlock>
+        </Button>
+
+        <CheckBox Canvas.Left="12" Canvas.Top="437" Width="227" Height="16"
+                  Content="Temporarily hide all overlays"
+                  IsChecked="{Binding TempHideOverlays}" />
+
+        <Button Canvas.Left="325" Canvas.Top="437" Width="46" Height="36"
+                IsEnabled="False"
+                IsVisible="{Binding ShowQuestComms}"
+                Command="{Binding QuestCommsCommand}" />
+        <Button Canvas.Left="379" Canvas.Top="437" Width="46" Height="36"
+                IsEnabled="{Binding CanCodexShow}"
+                ToolTip.Tip="See stock images of species expected on this planet."
+                ToolTip.ShowOnDisabled="True"
+                Command="{Binding CodexShowCommand}">
+            <Canvas Width="44" Height="34">
+                <Image Canvas.Left="6" Canvas.Top="1" Width="32" Height="32"
+                       Source="/Assets/picture.png" />
+            </Canvas>
+        </Button>
+
+        <!-- linkLabel1 (12,459) 415x18, MiddleLeft, 9pt; LinkArea(13,12) -->
+        <StackPanel Classes="linkLine" Orientation="Horizontal"
+                    Canvas.Left="12" Canvas.Top="459" Height="18">
+            <TextBlock VerticalAlignment="Center" Text="For guidance " />
+            <Button Theme="{StaticResource LinkButton}" VerticalAlignment="Center"
+                    Command="{Binding OpenProjectWikiCommand}">
+                <TextBlock Classes="link" Text="see the wiki" />
+            </Button>
+            <TextBlock VerticalAlignment="Center" Text=" on GitHub" />
+        </StackPanel>
+        <!-- linkLabel2 (12,481) 417x29, TopLeft, 9pt; LinkArea(17,22) -->
+        <StackPanel Classes="linkLine" Orientation="Horizontal" Canvas.Left="12" Canvas.Top="481">
+            <TextBlock Text="Ask questions at " />
+            <Button Theme="{StaticResource LinkButton}" Command="{Binding OpenDiscordCommand}">
+                <TextBlock Classes="link" Text="Guardian Science Corps" />
+            </Button>
+            <TextBlock Text=" on Discord" />
+        </StackPanel>
+
+        <Button Canvas.Left="12" Canvas.Top="513" Width="75" Height="23"
+                HotKey="Alt+S"
+                Command="{Binding OpenSettingsCommand}">
+            <TextBlock><Underline>S</Underline>ettings</TextBlock>
+        </Button>
+        <Button Canvas.Left="93" Canvas.Top="513" Width="75" Height="23"
+                HotKey="Alt+L"
+                Command="{Binding OpenLogsCommand}">
+            <TextBlock><Underline>L</Underline>ogs</TextBlock>
+        </Button>
+        <Button Canvas.Left="350" Canvas.Top="513" Width="75" Height="23"
+                HotKey="Alt+Q"
+                Command="{Binding QuitCommand}">
+            <TextBlock><Underline>Q</Underline>uit</TextBlock>
+        </Button>
+    </Canvas>
+</Window>

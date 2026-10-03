@@ -1,0 +1,15 @@
+<Project>
+  <!-- On Bazzite /home is a symlink to /var/home, and a build can see the project under either
+       spelling. IncrementalClean compares file paths as strings, so the previous build's list in
+       the other spelling looks orphaned and it deletes runtimeconfig.json, deps.json, and every
+       copied package DLL while the copy step is skipped as up to date. Drop prior entries that are
+       not under this build's project directory; IncrementalClean never deletes outside it anyway. -->
+  <Target Name="SrvIgnorePriorWritesFromOtherPathSpelling"
+          AfterTargets="_CleanGetCurrentAndPriorFileWrites">
+    <ItemGroup>
+      <SrvPriorWritesOtherSpelling Include="@(_CleanPriorFileWrites)"
+                                   Condition="!$([System.String]::Copy('%(Identity)').StartsWith('$(MSBuildProjectDirectory)/'))" />
+      <_CleanPriorFileWrites Remove="@(SrvPriorWritesOtherSpelling)" />
+    </ItemGroup>
+  </Target>
+</Project>

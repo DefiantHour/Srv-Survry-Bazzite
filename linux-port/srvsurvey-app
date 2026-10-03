@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Start the Avalonia Srv Survey window. Overlay present stays gated.
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")" && pwd)"
+export DOTNET_ROOT="${DOTNET_ROOT:-$HOME/.dotnet}"
+export PATH="$DOTNET_ROOT:${PATH:-}"
+export SRVSURVEY_LINUX_ROOT="$ROOT"
+
+BIN="$ROOT/dist/ui/SrvSurveyLinuxUi"
+if [[ ! -x "$BIN" && -f "$BIN" ]]; then
+  chmod +x "$BIN"
+fi
+if [[ ! -f "$BIN" ]]; then
+  echo "Srv Survey is not published. Run: \"$ROOT/install-desktop.sh\"" >&2
+  exit 1
+fi
+exec "$BIN" "$@"

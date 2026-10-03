@@ -1,0 +1,24 @@
+[Desktop Entry]
+Name=Srv Survey Linux
+GenericName=Elite Dangerous Companion
+Comment=Survey companion for Elite Dangerous on Linux
+Exec="/home/Matthew/SrvSurvey for Linux Bazzite/linux-port/srvsurvey-app"
+Path=/home/Matthew/SrvSurvey for Linux Bazzite/linux-port
+Icon=/home/Matthew/.local/share/icons/hicolor/256x256/apps/srvsurvey.png
+Terminal=false
+Type=Application
+Categories=Utility;Game;
+Keywords=SrvSurvey;Srv;Survey;Elite;Dangerous;Journal;Linux;
+StartupNotify=true
+StartupWMClass=srvsurvey
+Actions=Settings;Overlay;
+# Overlay present stays gated by allow_present.
+# Leave ~/.local/share/applications/srvsurvey.desktop (Wine) unchanged.
+
+[Desktop Action Settings]
+Name=Settings
+Exec="/home/Matthew/SrvSurvey for Linux Bazzite/linux-port/srvsurvey-linux" --settings
+
+[Desktop Action Overlay]
+Name=Overlay Host
+Exec="/home/Matthew/SrvSurvey for Linux Bazzite/linux-port/srvsurvey-linux"

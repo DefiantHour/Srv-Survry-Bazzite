@@ -1,0 +1,21 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="SrvSurveyLinuxUi.Views.InfoWindow"
+        Width="420" Height="220"
+        MinWidth="360" MinHeight="180"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        Title="SrvSurvey">
+
+    <DockPanel Margin="16">
+        <Button DockPanel.Dock="Bottom"
+                Content="OK"
+                HorizontalAlignment="Right"
+                MinWidth="80"
+                IsDefault="True"
+                Click="OnOkClick" />
+        <TextBlock x:Name="MessageText"
+                   TextWrapping="Wrap"
+                   VerticalAlignment="Top" />
+    </DockPanel>
+</Window>

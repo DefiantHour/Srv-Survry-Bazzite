@@ -1,0 +1,43 @@
+{
+  "sid": "GR370",
+  "idx": 2,
+  "sh": 27,
+  "t": "Gamma",
+  "rh": 57,
+  "ll": {
+    "lat": 8.39264,
+    "long": -123.877914
+  },
+  "pa": "p10,p12,p13,p14,p15,p19,p2,p20,p23,p26,p27,p28,p31,p33,p34,p38,p40,p41,p42,p43,p9,t2,t3,t4,t5,t6",
+  "pp": "p11,p16,p17,p18,p21,p22,p24,p25,p29,p3,p30,p32,p35,p36,p37,p39,p4,p5,p6,p7,p8,t1,t7,t8,t9",
+  "pe": "p1",
+  "og": "ABCDHIJKMNORS",
+  "ao": [
+    "A06-ur,ta-B16-",
+    "A26-ur,ur-B14-",
+    "B06-ur,ta-B16-",
+    "B26-ur,ur-B14-",
+    "C07-to,ta-C18-",
+    "C08-to,or-C19-",
+    "D11-ca,or-H21-",
+    "H05-ta,ur-L18-",
+    "H08-ta,ur-L18-",
+    "H24-ta,ur-L18-",
+    "H36-ta,ca-L17-",
+    "H49-ta,ca-L17-",
+    "I01-ur,ca-B15-",
+    "I15-ur,to-B18-",
+    "J04-ca,ca-H18-",
+    "K04-or-T14-",
+    "K11-or,ur-T17-",
+    "M01-to,re-C20-",
+    "M08-to,ca-C16-",
+    "N07-or,ca-T16-",
+    "N08-or,ur-T17-",
+    "O02-ca,ta-H20-",
+    "R01-to-C14-",
+    "R07-to,re-C20-",
+    "S08-ca,ta-H20-"
+  ],
+  "rth": "t1:57,t7:57,t8:57,t9:57"
+}
